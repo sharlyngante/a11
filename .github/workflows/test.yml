@@ -1,34 +1,26 @@
-name: Automated Tests
-
-on:
-  push:
-    branches:
-      - main
-
+name: Automated Test
+on: [push]
 jobs:
-  test:
+  automated_test:
+    name: Automated Test
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Run Test Case 1
+        run: python find_lowest_number.py test_data/test1_input.txt test_data/output1.txt
+      - name: Compare Test Case 1 expected output to actual
+        run: diff test_data/output1.txt test_data/test1_expected.txt
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.8
+      - name: Run Test Case 2
+        run: python find_lowest_number.py test_data/test2_input.txt test_data/output2.txt
+      - name: Compare Test Case 2 expected output to actual
+        run: diff test_data/output2.txt test_data/test2_expected.txt
 
-    - name: Run Test Case 1
-      run: |
-        python find_lowest_number.py test_data/test1_input.txt test_data/output1.txt
-        diff test_data/output1.txt test_data/test1_expected.txt
-
-    - name: Run Test Case 2
-      run: |
-        python find_lowest_number.py test_data/test2_input.txt test_data/output2.txt
-        diff test_data/output2.txt test_data/test2_expected.txt
-
-    - name: Run Test Case 3
-      run: |
-        python find_lowest_number.py test_data/test3_input.txt test_data/output3.txt
-        diff test_data/output3.txt test_data/test3_expected.txt
+      - name: Run Test Case 3
+        run: python find_lowest_number.py test_data/test3_input.txt test_data/output3.txt
+      - name: Compare Test Case 3 expected output to actual
+        run: diff test_data/output3.txt test_data/test3_expected.txt
